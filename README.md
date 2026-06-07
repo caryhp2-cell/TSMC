@@ -10,36 +10,20 @@ The system operates in three main phases: **Data Fetching**, **Static Plotting**
 
 ```mermaid
 graph TD
-    %% Phase 1: Data Acquisition
-    subgraph Phase 1: Data Acquisition
-        TWSE[Taiwan Stock Exchange API] -->|HTTPS Request| PyFetch[fetch_tsmc.py]
-        PyFetch -->|Saves CSV| CSV[tsmc_prices_2026.csv]
+    subgraph "Phase 1: Data Acquisition"
+        TWSE["TWSE API (Taiwan Stock Exchange)"] -->|fetch_tsmc.py| CSV["tsmc_prices_2026.csv"]
     end
 
-    %% Phase 2: Processing & Web Service
-    subgraph Phase 2: Web Service & Calculations
-        CSV -->|Read Data| PyPlot[plot_tsmc.py]
-        PyPlot -->|Generates Chart Image| PNG[tsmc_ma20_chart.png]
-        
-        CSV -->|Auto-load Data| WebApp[index.html / app.js]
-        Server[server.py] -->|Serves localhost:8000| WebApp
+    subgraph "Phase 2: Local Web Server"
+        CSV -->|plot_tsmc.py| PNG["tsmc_ma20_chart.png"]
+        CSV -->|server.py| WebApp["index.html / app.js"]
     end
 
-    %% Phase 3: Client Rendering
-    subgraph Phase 3: Interactive UI (Browser)
-        WebApp -->|Frontend Calculation| MA20[Compute 20-Day Moving Average]
-        WebApp -->|Data Metrics Engine| KPI[KPI Cards: High/Low/Return %]
-        WebApp -->|ChartJS Engine| Chart[Interactive Line Chart]
-        
-        User((Investor / User)) -->|Upload Custom CSV| WebApp
-        User -->|View Charts & Milestones| WebApp
+    subgraph "Phase 3: Interactive Dashboard (Browser)"
+        WebApp <-->|http://localhost:8000| User["Investor / Browser"]
     end
-
-    style TWSE fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style CSV fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#fff
-    style PNG fill:#b45309,stroke:#f59e0b,stroke-width:2px,color:#fff
-    style WebApp fill:#065f46,stroke:#10b981,stroke-width:2px,color:#fff
 ```
+
 
 ### Component Interaction:
 1. **`fetch_tsmc.py`**: Queries the official Taiwan Stock Exchange (TWSE) endpoint, handles Minguo-to-Western date conversions, filters range (2026/01/01 to 2026/06/05), and exports standard [tsmc_prices_2026.csv](tsmc_prices_2026.csv).
