@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSMC Investor Dashboard (2026)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div>
+                <h1 id="main-title">TSMC (2330) Investor Dashboard</h1>
+                <p style="color: var(--text-secondary); margin-top: 0.2rem; font-size: 0.9rem;">Historical data analysis & visualization (Jan 1, 2026 - Jun 5, 2026)</p>
+            </div>
+            
+            <div class="upload-section">
+                <div class="status-indicator" id="statusIndicator">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background-color:var(--color-green);"></span>
+                    Auto-loaded local data
+                </div>
+                <div class="file-input-wrapper">
+                    <button class="btn-upload" id="uploadBtn">Upload CSV</button>
+                    <input type="file" id="csvFileInput" accept=".csv" />
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Cards Grid -->
+        <section class="metrics-grid">
+            <!-- Latest Price -->
+            <div class="card" id="card-latest">
+                <div class="card-title">Latest Closing Price</div>
+                <div class="card-value" id="valLatest">NT$ --</div>
+                <div class="card-subtext" id="subLatest">As of Jun 5, 2026</div>
+            </div>
+            
+            <!-- High Price -->
+            <div class="card" id="card-high">
+                <div class="card-title">Period High Price</div>
+                <div class="card-value" id="valHigh">NT$ --</div>
+                <div class="card-subtext" id="subHigh">Highest peak price</div>
+            </div>
+
+            <!-- Low Price -->
+            <div class="card" id="card-low">
+                <div class="card-title">Period Low Price</div>
+                <div class="card-value" id="valLow">NT$ --</div>
+                <div class="card-subtext" id="subLow">Lowest base price</div>
+            </div>
+
+            <!-- Average Price -->
+            <div class="card" id="card-avg">
+                <div class="card-title">Average Price</div>
+                <div class="card-value" id="valAvg">NT$ --</div>
+                <div class="card-subtext">Overall period mean</div>
+            </div>
+
+            <!-- Return Rate -->
+            <div class="card" id="card-return">
+                <div class="card-title">Period Return Rate</div>
+                <div class="card-value" id="valReturn">--%</div>
+                <div class="card-subtext" id="subReturn">Jan 2 to Jun 5</div>
+            </div>
+        </section>
+
+        <!-- Chart Section -->
+        <section class="chart-container">
+            <h2 style="font-size: 1.2rem; margin-bottom: 1rem; font-weight: 600;">Stock Trend & MA20 (Monthly Line)</h2>
+            <div style="position: relative; height: 450px; width: 100%;">
+                <canvas id="priceChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Financial Report & Milestones Split Section -->
+        <div class="info-split-grid">
+            <!-- Financial Report Card -->
+            <section class="info-card">
+                <h2 class="section-title">Important Financial Reports (QoQ Analysis)</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Financial Metric</th>
+                                <th>2026 Q1</th>
+                                <th>2025 Q4</th>
+                                <th style="text-align: right;">QoQ Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Net Revenue (營業收入)</td>
+                                <td>NT$ 1,134.10 B</td>
+                                <td>NT$ 1,046.09 B</td>
+                                <td class="text-positive text-right">+8.41%</td>
+                            </tr>
+                            <tr>
+                                <td>Net Income (本期淨利)</td>
+                                <td>NT$ 572.48 B</td>
+                                <td>NT$ 505.74 B</td>
+                                <td class="text-positive text-right">+13.19%</td>
+                            </tr>
+                            <tr>
+                                <td>Diluted EPS (每股盈餘)</td>
+                                <td>NT$ 22.08</td>
+                                <td>NT$ 19.50</td>
+                                <td class="text-positive text-right">+13.23%</td>
+                            </tr>
+                            <tr>
+                                <td>Gross Margin (營業毛利率)</td>
+                                <td>66.2%</td>
+                                <td>62.3%</td>
+                                <td class="text-positive text-right">+3.90 pp</td>
+                            </tr>
+                            <tr>
+                                <td>Operating Margin (營業利益率)</td>
+                                <td>58.1%</td>
+                                <td>54.0%</td>
+                                <td class="text-positive text-right">+4.10 pp</td>
+                            </tr>
+                            <tr>
+                                <td>Net Profit Margin (淨利率)</td>
+                                <td>50.5%</td>
+                                <td>48.3%</td>
+                                <td class="text-positive text-right">+2.20 pp</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Milestones Card -->
+            <section class="info-card">
+                <h2 class="section-title">Key Milestones & Expansion Activities</h2>
+                <div class="milestones-timeline">
+                    <!-- Milestone 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-badge badge-active">N2</div>
+                        <div class="timeline-content">
+                            <h3>2nm (N2) Process Mass Production</h3>
+                            <p class="timeline-date">2025 Q4 - 2026 H2</p>
+                            <p>Successfully initiated volume production at Hsinchu Fab 20 and Kaohsiung Fab 22. Gearing up N2P capacity for H2 2026 to address substantial AI/HPC demand.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Milestone 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-badge badge-us">USA</div>
+                        <div class="timeline-content">
+                            <h3>Arizona Fab Cluster Growth</h3>
+                            <p class="timeline-date">Late 2024 - 2027</p>
+                            <p>Fab 1 currently running N4 technology. Fab 2 completed construction with 3nm production targeted for H2 2027. Fab 3 broke ground to utilize N2/A16 nodes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Milestone 3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-badge badge-jp">JPN</div>
+                        <div class="timeline-content">
+                            <h3>Kumamoto Fabs Advanced Integration</h3>
+                            <p class="timeline-date">Late 2024 - 2028</p>
+                            <p>Fab 1 in mass production (12-28nm) and is now profitable. Fab 2 upgrade confirmed: will implement advanced 3nm tech by 2028 for global AI accelerators.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>
